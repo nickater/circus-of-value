@@ -7,10 +7,10 @@ class VendingMachine
     @is_on = true
     @items = items
     @funds = 0.00
-    @firstStart = true
+    @first_start = true
   end
 
-  def displayProducts
+  def display_products
     puts "#{'Selector'.ljust(10)}#{'Name'.ljust(22)}#{'Price'.ljust(8)} #"
     puts '-' * 42
     @items.each do |item|
@@ -19,23 +19,19 @@ class VendingMachine
     puts "\n"
   end
 
-  def getProduct(index)
-    @items[index]
-  end
-
-  def showMainMenu
-    if @firstStart
+  def show_main_menu
+    if @first_start
       puts File.readlines('welcome.txt')
       puts "\n\n"
     end
-    @firstStart = false
+    @first_start = false
     puts "Please make a selection\n#{'-' * 26}\n1) Display All Items\n2) Make a purchase\n3) Add funds - Balance: $#{format(
       '%.2f', @funds
     )}\n4) Exit\n\n"
     gets.chomp
   end
 
-  def purchaseItem(selector)
+  def purchase_item(selector)
     item_found = false
     item_name = ''
     @items.each_with_index do |item, _index|
@@ -53,48 +49,48 @@ class VendingMachine
         puts "Sorry, you don\'t have the funds for a #{item.name}"
       end
     end
-    if item_found == false
-      puts "#{item_name} out of stock"
-      puts "\n"
-    end
+    return unless item_found == false
+
+    puts "#{item_name} out of stock"
+    puts "\n"
   end
 
-  def purchaseHandler
+  def purchase_handler
     puts 'Enter the selector of the item'
     selector = gets.chomp
     puts `clear`
-    purchaseItem(selector)
+    purchase_item(selector)
   end
 
-  def handleUserInput(selection)
+  def handle_user_input(selection)
     case selection
     when '1'
       puts `clear`
-      displayProducts
+      display_products
     when '2'
-      purchaseHandler
+      purchase_handler
     when '3'
-      fundsHandler
+      funds_handler
       puts `clear`
     when '4'
       puts `clear`
-      cashOut
+      cash_out
       puts 'Good bye!'
-      turnOff
+      turn_off
     end
   end
 
-  def fundsHandler
+  def funds_handler
     puts 'How much would you like to deposit?'
     funds = gets.chomp.to_f
-    addFunds(funds)
+    add_funds(funds)
   end
 
-  def addFunds(money)
+  def add_funds(money)
     @funds += money
   end
 
-  def cashOut
+  def cash_out
     quarters = 0
     dimes = 0
     nickels = 0
@@ -118,7 +114,7 @@ class VendingMachine
     puts "Your change is #{quarters} quarters, #{dimes} dimes, #{nickels} nickels, and #{pennies} pennies"
   end
 
-  def turnOff
+  def turn_off
     @is_on = false
   end
 end

@@ -1,20 +1,23 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative './vending-item'
-require_relative './vending-machine'
+require_relative './vending_item'
+require_relative './vending_machine'
 require 'csv'
 
 products = []
+selector = 0
+name = 1
+price = 2
 
 CSV.foreach('./products.csv') do |row|
-  product = VendingItem.new(row[0], row[1], row[2])
+  product = VendingItem.new(row[selector], row[name], row[price])
   products.push(product)
 end
 
-vendingMachine = VendingMachine.new(products)
+vending_machine = VendingMachine.new(products)
 
-while vendingMachine.is_on
-  selection = vendingMachine.showMainMenu
-  vendingMachine.handleUserInput(selection)
+while vending_machine.is_on
+  selection = vending_machine.show_main_menu
+  vending_machine.handle_user_input(selection)
 end
