@@ -74,7 +74,9 @@ class VendingMachine
       puts `clear`
     when '4'
       puts `clear`
-      cash_out
+      if @funds > 0
+         cash_out
+      end
       puts 'Good bye!'
       turn_off
     end
